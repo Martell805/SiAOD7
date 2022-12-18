@@ -451,10 +451,80 @@ void test() {
     cout << "Compression: " << (float)encho.full_code.size() / (float)ssh.size() / 8 << endl;
 }
 
+void task() {
+    string s;
+
+    cout << "Enter string:" << endl;
+
+    cin >> s;
+
+    int encoding;
+
+    vector<CodeRLE> enc;
+    vector<Code77> enc77;
+    vector<Code78> enc78;
+    ManCode encS;
+    ManCode encH;
+
+    cout << "Choose encoding:" << endl;
+    cout << "0 - RLE" << endl;
+    cout << "1 - LZ77" << endl;
+    cout << "2 - LZ78" << endl;
+    cout << "3 - Sheffman" << endl;
+    cout << "4 - Hoffman" << endl;
+
+    cin >> encoding;
+
+    switch (encoding) {
+        case 0:
+            enc = rle(s);
+            print_vector(enc);
+            cout << "Compression: " << (float)enc.size() / (float)s.size() * 2 << endl;
+            break;
+        case 1:
+            enc77 = lz77(s);
+            print_vector(enc77);
+            cout << "Compression: " << (float)enc77.size() / (float)s.size() * 3 << endl;
+            break;
+        case 2:
+            enc78 = lz78(s);
+            print_vector(enc78);
+            cout << "Compression: " << (float)enc78.size() / (float)s.size() * 2 << endl;
+            break;
+        case 3:
+            encS = sheffman_encode(s);
+            cout << encS.full_code << endl;
+            cout << "Compression: " << (float)encS.full_code.size() / (float)s.size() / 8 << endl;
+            break;
+        case 4:
+            encH = hoffman_encode(s);
+            cout << encH.full_code << endl;
+            cout << "Compression: " << (float)encH.full_code.size() / (float)s.size() / 8 << endl;
+            break;
+        default:
+            cout << "Incorrect encoding number" << endl;
+            break;
+    }
+}
+
 int main() {
     system("chcp 65001");
 
-    test();
+    int n;
+    cout << "Choose 0 for test or 1 for task:" << endl;
+    cin >> n;
+
+    switch(n){
+        case 0:
+            test();
+            break;
+        case 1:
+            task();
+            break;
+        default:
+            cout << "There is no such a task" << endl;
+            break;
+    }
 
     return 0;
 }
